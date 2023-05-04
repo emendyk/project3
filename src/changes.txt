@@ -1,0 +1,21 @@
+Changes.txt
+I could not produce any particular runtime errors in the program from Project 3, 
+because the program was simply saving any input from the TextFields to the Labels. 
+However, I have offered changes to add requirements to certain TextFields. 
+Phone and email could have potential runtime errors (BadNumberException, BadEmailException) 
+with the requirements that have been added but I have addressed those issues with the changes.
+
+Errors to address in the program
+
+Email: Make a requirement for a valid email address that looks for an “@” symbol and a top level domain at the end of the email address
+Phone: Requirement for a valid phone number of 10 digits only (3333333333)
+
+Result of these changes
+
+When the user clicks the submit button their entries will be saved in the Labels to the left of the TextFields, 
+if the entry information is not applicable an error message will be displayed in a pop-up.
+
+Why I did not choose to change Name, Address
+
+Some names and most addresses have both numbers and characters within them. 
+It would be difficult for me to determine whether the user entries for these TextFields are valid or not.
