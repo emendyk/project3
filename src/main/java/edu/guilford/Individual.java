@@ -1,5 +1,6 @@
 package edu.guilford;
 
+
 public class Individual {
     // three attributes for name, email, and phone
     private String name;

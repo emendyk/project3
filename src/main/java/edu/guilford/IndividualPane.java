@@ -1,13 +1,21 @@
 package edu.guilford;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import edu.guilford.BadNumberException;
+
+
+
 
 public class IndividualPane extends GridPane {
     
@@ -115,39 +123,84 @@ public class IndividualPane extends GridPane {
             this.setStyle("-fx-border-color: black");
             //add a background color
             this.setStyle("-fx-background-color: lightblue");
+
+            
             
             //Add a listner for the button that changes the labels
             submitButton.setOnAction(e -> {
-                //set the name label to the name field text
                 nameLabel.setText("Name: " + nameField.getText());
-                //set the email label to the email field text
                 emailLabel.setText("Email: " + emailField.getText());
-                //set the phone label to the phone field text
-                phoneLabel.setText("Phone: " + phoneField.getText());
-                //set the address label to the address field text
                 addressLabel.setText("Address: " + addressField.getText());
-                //set the date label to the datepicker value
                 dateLabel.setText("Date: " + datePicker.getValue());
-                //Update the individual attribute with the new data
-                individual.setName(nameField.getText());
-                individual.setEmail(emailField.getText());
-                individual.setPhone(phoneField.getText());
-                individual.setAddress(addressField.getText());
-                
-                System.out.println(e.toString());
+            
+                try {
+                    if (isValidPhoneNumber(phoneField.getText())) {
+                        phoneLabel.setText("Phone: " + phoneField.getText());
+                        individual.setPhone(phoneField.getText());
+                    } else {
+                        throw new BadNumberException("Invalid phone number format.");
+                    }
+                } catch (BadNumberException ex) {
+                    System.out.println(ex.getMessage());
+                    Alert alert = new Alert(AlertType.ERROR, ex.getMessage());
+                    alert.showAndWait();
+                }
+                try {
+                    isValidEmail(emailField.getText());
+                } catch (BadEmailException ex) {
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Invalid Email");
+                    alert.setHeaderText("Invalid email format");
+                    alert.setContentText("Please enter a valid email address");
+                    alert.showAndWait();
+                    return;
+                }
+                System.out.println(e.toString());                
             });
+            
+            
+            
             // write and event listner and connect it to the component that triggers it
             //rotate the image by 180 degrees when the mouse is clicked on it
             imageView.setOnMouseClicked(e -> {
                 imageView.setRotate(180);
             });
+            
+            
     
             
     
     
     
         }
+
+
+        private boolean isValidPhoneNumber(String phoneNumber) {
+            if (phoneNumber == null || phoneNumber.isEmpty()) {
+                return false;
+            }
+            // check if the phone number has exactly 10 digits
+            if (phoneNumber.length() != 10 || !phoneNumber.matches("\\d+")) {
+                return false;
+            }
+            // other validation rules, if any
+            // ...
+            return true;
+        }
+        private boolean isValidEmail(String email) throws BadEmailException {
+            // check if the email matches the pattern
+            Pattern pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+            Matcher matcher = pattern.matcher(email);
+            
+            // if the email doesn't match the pattern, throw an exception
+            if (!matcher.matches()) {
+                throw new BadEmailException("Invalid email format");
+            }
+            
+            return true;
+        }
+        
+        
     
     }
     
-
