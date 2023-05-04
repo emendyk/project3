@@ -12,7 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import edu.guilford.BadNumberException;
+
 
 
 
@@ -138,7 +138,7 @@ public class IndividualPane extends GridPane {
                         phoneLabel.setText("Phone: " + phoneField.getText());
                         individual.setPhone(phoneField.getText());
                     } else {
-                        throw new BadNumberException("Invalid phone number format.");
+                        throw new BadNumberException("Invalid phone number format. Enter a 10 digit phone number with no spaces or dashes");
                     }
                 } catch (BadNumberException ex) {
                     System.out.println(ex.getMessage());
@@ -151,7 +151,7 @@ public class IndividualPane extends GridPane {
                     Alert alert = new Alert(AlertType.ERROR);
                     alert.setTitle("Invalid Email");
                     alert.setHeaderText("Invalid email format");
-                    alert.setContentText("Please enter a valid email address");
+                    alert.setContentText("Please enter a valid email address in the form of example@example.tld");
                     alert.showAndWait();
                     return;
                 }
@@ -194,7 +194,7 @@ public class IndividualPane extends GridPane {
             
             // if the email doesn't match the pattern, throw an exception
             if (!matcher.matches()) {
-                throw new BadEmailException("Invalid email format");
+                throw new BadEmailException("Invalid email format. enter an email in the form of example@example.tld");
             }
             
             return true;
